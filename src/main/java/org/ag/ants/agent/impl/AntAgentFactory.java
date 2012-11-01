@@ -1,4 +1,4 @@
-package org.ag.ants.agent;
+package org.ag.ants.agent.impl;
 
 import java.util.ArrayList;
 import java.util.List;

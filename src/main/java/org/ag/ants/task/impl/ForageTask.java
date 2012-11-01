@@ -1,9 +1,10 @@
-package org.ag.ants.task;
+package org.ag.ants.task.impl;
 
 import net.jcip.annotations.ThreadSafe;
 
-import org.ag.ants.agent.AntAgent;
-import org.ag.ants.env.ForageStimulusType;
+import org.ag.ants.agent.impl.AntAgent;
+import org.ag.ants.env.impl.ForageStimulusType;
+import org.ag.ants.task.AntTask;
 import org.ag.common.agent.Agent;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;

@@ -1,12 +1,14 @@
-package org.ag.ants.agent;
+package org.ag.ants.agent.impl;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.ag.ants.agent.Ant;
+import org.ag.ants.agent.AntType;
 import org.ag.ants.env.ChemicalCommStimulusType;
-import org.ag.ants.env.FoodSourceAgent;
-import org.ag.ants.env.FoodSourceAgentType;
 import org.ag.ants.env.PheromoneNode;
+import org.ag.ants.env.impl.FoodSourceAgent;
+import org.ag.ants.env.impl.FoodSourceAgentType;
 import org.ag.common.agent.Agent;
 import org.ag.common.agent.TaskAgent;
 import org.ag.common.env.Direction;

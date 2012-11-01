@@ -1,8 +1,8 @@
-package org.ag.ants.task;
+package org.ag.ants.task.impl;
 
 import net.jcip.annotations.ThreadSafe;
 
-import org.ag.ants.agent.StaticPheromoneUpdaterAgent;
+import org.ag.ants.agent.impl.StaticPheromoneUpdaterAgent;
 import org.ag.ants.env.ChemicalCommStimulus;
 import org.ag.common.agent.Agent;
 import org.ag.common.env.CommunicationStimulus;

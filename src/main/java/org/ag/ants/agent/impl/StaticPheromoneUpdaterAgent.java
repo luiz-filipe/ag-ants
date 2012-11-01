@@ -1,4 +1,4 @@
-package org.ag.ants.agent;
+package org.ag.ants.agent.impl;
 
 import org.ag.common.agent.TaskAgent;
 import org.ag.common.env.Node;

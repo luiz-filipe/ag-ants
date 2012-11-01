@@ -1,4 +1,4 @@
-package org.ag.ants.env;
+package org.ag.ants.env.impl;
 
 import org.ag.common.agent.AbstractAgent;
 import org.ag.common.env.Node;

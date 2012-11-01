@@ -1,4 +1,4 @@
-package org.ag.ants.agent;
+package org.ag.ants.agent.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,13 +7,14 @@ import java.util.Map;
 
 import net.jcip.annotations.ThreadSafe;
 
+import org.ag.ants.agent.AntType;
 import org.ag.ants.env.ChemicalCommStimulus;
-import org.ag.ants.env.FoodSourceAgent;
-import org.ag.ants.env.ForageStimulusType;
-import org.ag.ants.env.WarningStimulusType;
-import org.ag.ants.task.FindAndHideInNest;
-import org.ag.ants.task.FindHomeTask;
-import org.ag.ants.task.ForageTask;
+import org.ag.ants.env.impl.FoodSourceAgent;
+import org.ag.ants.env.impl.ForageStimulusType;
+import org.ag.ants.env.impl.WarningStimulusType;
+import org.ag.ants.task.impl.FindAndHideInNest;
+import org.ag.ants.task.impl.FindHomeTask;
+import org.ag.ants.task.impl.ForageTask;
 import org.ag.common.agent.Agent;
 import org.ag.common.task.Task;
 import org.slf4j.Logger;

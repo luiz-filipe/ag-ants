@@ -1,6 +1,6 @@
-package org.ag.ants.task;
+package org.ag.ants.task.impl;
 
-import org.ag.ants.agent.AntAgent;
+import org.ag.ants.agent.impl.AntAgent;
 import org.ag.ants.env.ChemicalCommStimulus;
 import org.ag.ants.env.ChemicalCommStimulusType;
 import org.ag.common.agent.Agent;

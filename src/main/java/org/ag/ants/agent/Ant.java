@@ -1,7 +1,8 @@
 package org.ag.ants.agent;
 
+import org.ag.ants.agent.impl.AntNestAgent;
 import org.ag.ants.env.ChemicalCommStimulusType;
-import org.ag.ants.env.FoodSourceAgent;
+import org.ag.ants.env.impl.FoodSourceAgent;
 import org.ag.common.agent.Agent;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;

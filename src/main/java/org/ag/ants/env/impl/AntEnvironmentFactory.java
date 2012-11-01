@@ -1,9 +1,10 @@
-package org.ag.ants.env;
+package org.ag.ants.env.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ag.ants.agent.AntNestAgent;
+import org.ag.ants.agent.impl.AntNestAgent;
+import org.ag.ants.env.PheromoneNode;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
 

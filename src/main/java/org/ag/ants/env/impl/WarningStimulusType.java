@@ -1,4 +1,7 @@
-package org.ag.ants.env;
+package org.ag.ants.env.impl;
+
+
+import org.ag.ants.env.ChemicalCommStimulusType;
 
 import net.jcip.annotations.ThreadSafe;
 
