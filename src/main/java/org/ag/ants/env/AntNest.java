@@ -27,6 +27,15 @@ public class AntNest {
 		return id;
 	}
 
+	/**
+	 * Returns a node part of the nest. The node returned is determined by the
+	 * index (line, column). related to the nest not to the environment.
+	 * 
+	 * @param line vertical coordinate of the node
+	 * @param column horizontal coordinate of the node
+	 * 
+	 * @return NestNode node at (line, column).
+	 */
 	public NestNode getNode(final int line, final int column) {
 		if ((line >= 0) && (line <= nLines - 1)) {
 			if ((column >= 0) && (column <= nColumns - 1)) {
@@ -58,6 +67,10 @@ public class AntNest {
 					if (l == 0) {
 						nestNodes[l][c].setNeighbours(Direction.NORTH,
 								currentNode.getNeighbour(Direction.NORTH));
+						nestNodes[l][c].setNeighbours(Direction.NORTH_EAST,
+								currentNode.getNeighbour(Direction.NORTH_EAST));
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_WEST,
+								currentNode.getNeighbour(Direction.SOUTH_WEST));
 						nestNodes[l][c].setNeighbours(Direction.WEST,
 								currentNode.getNeighbour(Direction.WEST));
 						nestNodes[l][c].setNeighbours(Direction.NORTH_WEST,
@@ -65,17 +78,25 @@ public class AntNest {
 					}
 
 					if ((l > 0) && (l < nLines - 1)) {
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_WEST,
+								currentNode.getNeighbour(Direction.SOUTH_WEST));
 						nestNodes[l][c].setNeighbours(Direction.WEST,
 								currentNode.getNeighbour(Direction.WEST));
+						nestNodes[l][c].setNeighbours(Direction.NORTH_WEST,
+								currentNode.getNeighbour(Direction.NORTH_WEST));
 					}
 
 					if (l == nLines - 1) {
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_EAST,
+								currentNode.getNeighbour(Direction.SOUTH_EAST));
 						nestNodes[l][c].setNeighbours(Direction.SOUTH,
 								currentNode.getNeighbour(Direction.SOUTH));
 						nestNodes[l][c].setNeighbours(Direction.SOUTH_WEST,
 								currentNode.getNeighbour(Direction.SOUTH_WEST));
 						nestNodes[l][c].setNeighbours(Direction.WEST,
 								currentNode.getNeighbour(Direction.WEST));
+						nestNodes[l][c].setNeighbours(Direction.NORTH_WEST,
+								currentNode.getNeighbour(Direction.NORTH_WEST));
 					}
 
 					currentNode = currentNode.getNeighbour(Direction.EAST);
@@ -86,11 +107,19 @@ public class AntNest {
 					if (l == 0) {
 						nestNodes[l][c].setNeighbours(Direction.NORTH,
 								currentNode.getNeighbour(Direction.NORTH));
+						nestNodes[l][c].setNeighbours(Direction.NORTH_EAST,
+								currentNode.getNeighbour(Direction.NORTH_EAST));
+						nestNodes[l][c].setNeighbours(Direction.NORTH_WEST,
+								currentNode.getNeighbour(Direction.NORTH_WEST));
 					}
 
 					if (l == nLines - 1) {
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_EAST,
+								currentNode.getNeighbour(Direction.SOUTH_EAST));
 						nestNodes[l][c].setNeighbours(Direction.SOUTH,
 								currentNode.getNeighbour(Direction.SOUTH));
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_WEST,
+								currentNode.getNeighbour(Direction.SOUTH_WEST));
 					}
 
 					currentNode = currentNode.getNeighbour(Direction.EAST);
@@ -105,20 +134,33 @@ public class AntNest {
 								currentNode.getNeighbour(Direction.NORTH_EAST));
 						nestNodes[l][c].setNeighbours(Direction.EAST,
 								currentNode.getNeighbour(Direction.EAST));
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_EAST,
+								currentNode.getNeighbour(Direction.SOUTH_EAST));
+						nestNodes[l][c].setNeighbours(Direction.NORTH_WEST,
+								currentNode.getNeighbour(Direction.NORTH_WEST));
+						
 					}
 
 					if ((l > 0) && (l < nLines - 1)) {
+						nestNodes[l][c].setNeighbours(Direction.NORTH_EAST,
+								currentNode.getNeighbour(Direction.NORTH_EAST));
 						nestNodes[l][c].setNeighbours(Direction.EAST,
 								currentNode.getNeighbour(Direction.EAST));
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_EAST,
+								currentNode.getNeighbour(Direction.SOUTH_EAST));
 					}
 
 					if (l == nLines - 1) {
+						nestNodes[l][c].setNeighbours(Direction.NORTH_EAST,
+								currentNode.getNeighbour(Direction.NORTH_EAST));
 						nestNodes[l][c].setNeighbours(Direction.EAST,
 								currentNode.getNeighbour(Direction.EAST));
 						nestNodes[l][c].setNeighbours(Direction.SOUTH_EAST,
 								currentNode.getNeighbour(Direction.SOUTH_EAST));
 						nestNodes[l][c].setNeighbours(Direction.SOUTH,
 								currentNode.getNeighbour(Direction.SOUTH));
+						nestNodes[l][c].setNeighbours(Direction.SOUTH_WEST,
+								currentNode.getNeighbour(Direction.SOUTH_WEST));
 					}
 
 					initialLineNode = initialLineNode
