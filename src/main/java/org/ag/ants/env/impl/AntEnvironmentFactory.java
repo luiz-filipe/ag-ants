@@ -3,7 +3,6 @@ package org.ag.ants.env.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ag.ants.agent.impl.AntNestAgent;
 import org.ag.ants.env.PheromoneNode;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
@@ -74,23 +73,5 @@ public class AntEnvironmentFactory {
 		}
 		
 		return foodSources;
-	}
-
-	/**
-	 * Utility method to count the total amount of food held by nests contained
-	 * in a list of AntNestAgent objects. 
-	 * @param nests list of nests
-	 * 
-	 * @return total amount of food hold in all nests of the list.
-	 * @see AntNestAgent
-	 */
-	public static double sumFoodCollected(List<AntNestAgent> nests) {
-		double result = 0;
-		
-		for (AntNestAgent nest : nests) {
-			result = result + nest.getAmountOfFoodHeld();
-		}
-		
-		return result;
 	}
 }

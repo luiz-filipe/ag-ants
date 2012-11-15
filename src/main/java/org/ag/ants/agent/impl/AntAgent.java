@@ -6,6 +6,7 @@ import java.util.Queue;
 import org.ag.ants.agent.Ant;
 import org.ag.ants.agent.AntType;
 import org.ag.ants.env.ChemicalCommStimulusType;
+import org.ag.ants.env.NestNode;
 import org.ag.ants.env.PheromoneNode;
 import org.ag.ants.env.impl.FoodSourceAgent;
 import org.ag.ants.env.impl.FoodSourceAgentType;
@@ -220,8 +221,8 @@ public class AntAgent extends TaskAgent implements Ant {
 	}
 
 	@Override
-	public void depositFood(AntNestAgent nest) {
-		nest.addPortionOfFood(this, this.amountOfFoodCarring);
+	public void depositFood(NestNode nest) {
+		nest.depositFood(this.amountOfFoodCarring);
 		this.amountOfFoodCarring = 0;
 	}
 	

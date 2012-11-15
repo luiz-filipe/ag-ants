@@ -27,6 +27,35 @@ public class AntNest {
 		return id;
 	}
 
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + nColumns;
+		result = prime * result + nLines;
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		if (!(obj instanceof AntNest)) {
+			return false;
+		}
+
+		AntNest other = (AntNest) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nColumns != other.nColumns)
+			return false;
+		if (nLines != other.nLines)
+			return false;
+		return true;
+	}
+	
 	/**
 	 * Returns a node part of the nest. The node returned is determined by the
 	 * index (line, column). related to the nest not to the environment.
@@ -170,33 +199,16 @@ public class AntNest {
 			}
 		}
 	}
-
-	@Override
-	public final int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + nColumns;
-		result = prime * result + nLines;
-		return result;
-	}
-
-	@Override
-	public final boolean equals(Object obj) {
-		if (!(obj instanceof AntNest)) {
-			return false;
+	
+	public double getTotalFoodHeld() {
+		double total = 0;
+		
+		for (int l = 0; l < nLines; l++) {
+			for (int c = 0; c < nColumns; c++) {
+				total = total + nestNodes[l][c].getAmountOfFoodHeld();
+			}
 		}
-
-		AntNest other = (AntNest) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nColumns != other.nColumns)
-			return false;
-		if (nLines != other.nLines)
-			return false;
-		return true;
+		
+		return total;
 	}
 }

@@ -1,7 +1,7 @@
 package org.ag.ants.agent;
 
-import org.ag.ants.agent.impl.AntNestAgent;
 import org.ag.ants.env.ChemicalCommStimulusType;
+import org.ag.ants.env.NestNode;
 import org.ag.ants.env.impl.FoodSourceAgent;
 import org.ag.common.agent.Agent;
 import org.ag.common.env.Direction;
@@ -131,5 +131,5 @@ public interface Ant {
 	 * @param nest
 	 *            AntNestAgent Nest the food will be deposited.
 	 */
-	void depositFood(AntNestAgent nest);
+	void depositFood(NestNode nest);
 }

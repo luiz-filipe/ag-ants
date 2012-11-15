@@ -3,8 +3,7 @@ package org.ag.ants.task.impl;
 import net.jcip.annotations.ThreadSafe;
 
 import org.ag.ants.agent.impl.AntAgent;
-import org.ag.ants.agent.impl.AntNestAgent;
-import org.ag.ants.agent.impl.AntNestType;
+import org.ag.ants.env.NestNode;
 import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.ants.task.AntTask;
 import org.ag.common.agent.Agent;
@@ -40,27 +39,24 @@ public class FindHomeTask extends AbstractTask implements AntTask {
 	@Override public double getNeighbourWeightSouth() { return WEIGHT_SOUTH; }
 	@Override public double getNeighbourWeightWest() { return WEIGHT_WEST; }
 
-	private AntNestAgent getNest(Node node) {
-		synchronized (node.getAgents()) {
-			for (Agent agent : node.getAgents()) {
-				if (agent.getAgentType() == AntNestType.TYPE) {
-					return (AntNestAgent) agent;
-				}
-			}
+	private boolean isAntInNest(Node currentNode) {
+		if (currentNode instanceof NestNode) {
+			return true;
 		}
 		
-		return null;
+		return false;
 	}
+	
 
 	@Override
 	public void execute(Agent agent) {
 		AntAgent ant = (AntAgent) agent;
-		AntNestAgent nest = this.getNest(agent.getCurrentNode());
+		final boolean inNest = this.isAntInNest(agent.getCurrentNode());
 		
-		if (nest != null) {
+		if (inNest) {
 			// The agent has reached nest... Do something...
 			logger.debug("{} deposited food in the nest", agent.getId());
-			ant.depositFood(nest);
+			ant.depositFood((NestNode) ant.getCurrentNode());
 			ant.invertDirection();
 			
 			return;
