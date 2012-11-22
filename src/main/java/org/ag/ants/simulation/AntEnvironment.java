@@ -1,5 +1,6 @@
 package org.ag.ants.simulation;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class AntEnvironment implements Environment {
 	}
 
 	public void createNestAt(final String id, final int line, final int column,
-			final int nLines, final int nColumns) {
+			final int nLines, final int nColumns, final Color color) {
 		
 		// test if the new node would overlap an existent node
 		for (int l = 0; l < nLines; l++) {
@@ -93,7 +94,7 @@ public class AntEnvironment implements Environment {
 			}
 		}
 		
-		AntNest nest = new AntNest(id, nLines, nColumns);
+		AntNest nest = new AntNest(id, nLines, nColumns, color);
 		nest.connectToNeighbours(env[line][column]);
 		
 		// replace old nodes in the grid by the nest nodes

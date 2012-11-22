@@ -2,6 +2,8 @@ package org.ag.ants.test.env;
 
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Color;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.ag.ants.env.AntNest;
@@ -17,7 +19,7 @@ public class AntNestTest {
 		final int nColumns = 5;
 		
 		final Node[][] env = EnvironmentFactory.createPheromoneGrid(nLines, nColumns);
-		final AntNest nest = new AntNest("nest", 3, 3);
+		final AntNest nest = new AntNest("nest", 3, 3, Color.BLACK);
 		
 		nest.connectToNeighbours(env[1][1]);
 

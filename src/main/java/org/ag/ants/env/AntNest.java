@@ -1,30 +1,40 @@
 package org.ag.ants.env;
 
+import java.awt.Color;
+
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
+
 /**
  * An AntNest is composed by an array of nestNode objects that represent an ant
  * nest.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- *
+ * 
  */
 public class AntNest {
 	private final String id;
 	private final NestNode[][] nestNodes;
 	private final int nLines;
 	private final int nColumns;
+	private final Color color;
 
-	public AntNest(final String id, final int nLines, final int nColumns) {
+	public AntNest(final String id, final int nLines, final int nColumns,
+			final Color color) {
 		this.id = id;
 		this.nLines = nLines;
 		this.nColumns = nColumns;
+		this.color = color;
 
 		nestNodes = EnvironmentFactory.createNestGrid(id, nLines, nColumns);
 	}
 
 	public String getId() {
 		return id;
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 	@Override
@@ -55,13 +65,15 @@ public class AntNest {
 			return false;
 		return true;
 	}
-	
+
 	/**
 	 * Returns a node part of the nest. The node returned is determined by the
 	 * index (line, column). related to the nest not to the environment.
 	 * 
-	 * @param line vertical coordinate of the node
-	 * @param column horizontal coordinate of the node
+	 * @param line
+	 *            vertical coordinate of the node
+	 * @param column
+	 *            horizontal coordinate of the node
 	 * 
 	 * @return NestNode node at (line, column).
 	 */
@@ -74,7 +86,7 @@ public class AntNest {
 
 		return null;
 	}
-	
+
 	/**
 	 * Create the connection between the nest nodes from the ant nest and the
 	 * other nodes of the environment. The starting point for the nest placement
@@ -167,7 +179,7 @@ public class AntNest {
 								currentNode.getNeighbour(Direction.SOUTH_EAST));
 						nestNodes[l][c].setNeighbours(Direction.NORTH_WEST,
 								currentNode.getNeighbour(Direction.NORTH_WEST));
-						
+
 					}
 
 					if ((l > 0) && (l < nLines - 1)) {
@@ -199,16 +211,16 @@ public class AntNest {
 			}
 		}
 	}
-	
+
 	public double getTotalFoodHeld() {
 		double total = 0;
-		
+
 		for (int l = 0; l < nLines; l++) {
 			for (int c = 0; c < nColumns; c++) {
 				total = total + nestNodes[l][c].getAmountOfFoodHeld();
 			}
 		}
-		
+
 		return total;
 	}
 }
