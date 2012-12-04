@@ -3,8 +3,7 @@ package org.ag.ants.test.env;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
+import java.awt.Dimension;
 
 import org.ag.ants.env.AntNest;
 import org.ag.ants.env.EnvironmentFactory;
@@ -18,8 +17,8 @@ public class AntNestTest {
 		final int nLines = 5;
 		final int nColumns = 5;
 		
-		final Node[][] env = EnvironmentFactory.createPheromoneGrid(nLines, nColumns);
-		final AntNest nest = new AntNest("nest", 3, 3, Color.BLACK);
+		final Node[][] env = EnvironmentFactory.createPheromoneGrid(new Dimension(nLines, nColumns));
+		final AntNest nest = new AntNest("nest", new Dimension(3, 3), Color.BLACK);
 		
 		nest.connectToNeighbours(env[1][1]);
 
@@ -71,10 +70,5 @@ public class AntNestTest {
 		assertTrue(env[0][1].getNeighbour(Direction.SOUTH).getId().equals("nest-0,0"));
 		assertTrue(env[0][2].getNeighbour(Direction.SOUTH).getId().equals("nest-0,1"));
 		assertTrue(env[0][3].getNeighbour(Direction.SOUTH).getId().equals("nest-0,2"));
-	}
-	
-	@Test
-	public void equalsContractTest() {
-		EqualsVerifier.forClass(AntNest.class).verify();
 	}
 }
