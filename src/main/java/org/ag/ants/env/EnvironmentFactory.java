@@ -5,7 +5,17 @@ import java.awt.Dimension;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
 
-//TODO document
+/**
+ * Factory that produces elements will be used as environments or placed in
+ * existent environments, not to be confused with EnvironmentElement objects.
+ * 
+ * This class will hardly be used directly in the simulations, most of the time
+ * it will be used as a tool by other objects that will be part of the
+ * simulations.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ *
+ */
 public class EnvironmentFactory {
 	private EnvironmentFactory() {
 	}
