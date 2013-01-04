@@ -3,7 +3,6 @@ package org.ag.ants.agent.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ag.ants.task.impl.StaticPheromoneUpdateTask;
 import org.ag.common.agent.TaskAgentType;
 import org.ag.common.task.Task;
 
@@ -28,7 +27,7 @@ public enum StaticPheromoneUpdaterAgentType implements TaskAgentType {
 
 	StaticPheromoneUpdaterAgentType() {
 		tasks = new ArrayList<Task>();
-		tasks.add(new StaticPheromoneUpdateTask());
+		// TODO add tasks that the agent type is capable of performing.
 	}
 	
 	@Override public String getName() { return name; }

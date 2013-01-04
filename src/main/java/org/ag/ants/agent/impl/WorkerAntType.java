@@ -10,9 +10,6 @@ import net.jcip.annotations.ThreadSafe;
 import org.ag.ants.agent.AntType;
 import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.ants.env.impl.WarningStimulusType;
-import org.ag.ants.task.impl.FindAndHideInNestTask;
-import org.ag.ants.task.impl.FindHomeTask;
-import org.ag.ants.task.impl.ForageTask;
 import org.ag.common.task.Task;
 
 /**
@@ -42,9 +39,7 @@ public enum WorkerAntType implements AntType {
 
 	WorkerAntType() {
 		tasks = new ArrayList<Task>();
-		tasks.add(new ForageTask());
-		tasks.add(new FindHomeTask());
-		tasks.add(new FindAndHideInNestTask());
+		// TODO add tasks that the agent type is capable of performing.
 
 		stimulusIncrementList = new HashMap<String, Double>();
 		stimulusIncrementList.put(ForageStimulusType.TYPE.getName(), 0.01);
