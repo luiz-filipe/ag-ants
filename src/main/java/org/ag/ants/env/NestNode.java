@@ -4,6 +4,7 @@ import net.jcip.annotations.GuardedBy;
 
 import org.ag.common.env.BasicNode;
 
+//TODO document
 public class NestNode extends BasicNode {
 	@GuardedBy("this") private double amountOfFoodHeld = 0;
 
@@ -15,7 +16,7 @@ public class NestNode extends BasicNode {
 		super(id);
 	}
 	
-	public synchronized void depositFood(double amount) {
+	public synchronized void depositFood(final double amount) {
 		this.amountOfFoodHeld += amount;
 	}
 }

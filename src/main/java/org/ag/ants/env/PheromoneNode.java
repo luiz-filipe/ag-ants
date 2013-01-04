@@ -8,15 +8,15 @@ import net.jcip.annotations.ThreadSafe;
 /**
  * A specialisation of <em>BasicNode</em> used to create environments for ant
  * simulations. Pheromone nodes have a list of chemical stimulus that are
- * present in the node. 
+ * present in the node.
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- *
+ * 
  */
 @ThreadSafe
 public class PheromoneNode extends BasicNode {
 
-	public PheromoneNode(String id) {
+	public PheromoneNode(final String id) {
 		super(id);
 	}
 
@@ -26,32 +26,43 @@ public class PheromoneNode extends BasicNode {
 	 * found, a new chemical communication stimulus is created, put in the list
 	 * and returned.
 	 * 
-	 * @param chemicalCommStimulusType type of chemical communication stimulus
+	 * @param chemicalCommStimulusType
+	 *            type of chemical communication stimulus
 	 * @return chemical communication stimulus
 	 */
-	public synchronized ChemicalCommStimulus getCommunicationStimulus(ChemicalCommStimulusType chemicalCommStimulusType) {
+	public synchronized ChemicalCommStimulus getCommunicationStimulus(
+			final ChemicalCommStimulusType chemicalCommStimulusType) {
+
 		if (this.getCommunicationStimuli() != null) {
-			for (CommunicationStimulus stimulus : this.getCommunicationStimuli()) {
+			for (CommunicationStimulus stimulus : this
+					.getCommunicationStimuli()) {
 				if (stimulus.getType() == chemicalCommStimulusType) {
 					return (ChemicalCommStimulus) stimulus;
 				}
 			}
 		}
-		
-		ChemicalCommStimulus c = new ChemicalCommStimulus(chemicalCommStimulusType);
+
+		ChemicalCommStimulus c = new ChemicalCommStimulus(
+				chemicalCommStimulusType);
 		this.addCommunicationStimulus(c);
-		
+
 		return c;
 	}
-	
+
 	/**
 	 * Increments a communication stimulus' intensity by the requested amount.
 	 * 
-	 * @param chemicalCommStimulusType type of chemical communication stimulus
-	 * @param amount amount to be incremented 
+	 * @param chemicalCommStimulusType
+	 *            type of chemical communication stimulus
+	 * @param amount
+	 *            amount to be incremented
 	 */
-	public void incrementStimulusIntensity(ChemicalCommStimulusType chemicalCommStimulusType, double amount) {
-		ChemicalCommStimulus c = this.getCommunicationStimulus(chemicalCommStimulusType);
+	public void incrementStimulusIntensity(
+			final ChemicalCommStimulusType chemicalCommStimulusType,
+			final double amount) {
+		
+		ChemicalCommStimulus c = this
+				.getCommunicationStimulus(chemicalCommStimulusType);
 		c.increaseIntensity(amount);
 	}
 }
