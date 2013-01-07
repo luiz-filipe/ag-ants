@@ -1,6 +1,7 @@
 package org.ag.ants.agent;
 
 import org.ag.ants.env.ChemicalCommStimulusType;
+import org.ag.ants.env.PheromoneNode;
 import org.ag.common.env.Coordinate;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
@@ -101,5 +102,11 @@ public interface Ant {
 	 * @return Vector that points the position of the nest in relation to the
 	 *         agent's
 	 */
-	Coordinate getVectorToNest();	
+	Coordinate getVectorToNest();
+
+	/**
+	 * 
+	 * @return PheromoneNode The current node the ant is in the environment
+	 */
+	PheromoneNode getCurrentNode();
 }

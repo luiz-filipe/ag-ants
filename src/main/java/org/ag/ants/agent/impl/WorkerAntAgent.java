@@ -1,5 +1,6 @@
 package org.ag.ants.agent.impl;
 
+import org.ag.ants.env.FoodSourceNode;
 import org.ag.common.env.Node;
 
 public class WorkerAntAgent extends AntAgent {
@@ -12,7 +13,6 @@ public class WorkerAntAgent extends AntAgent {
 
 	@Override
 	public Void call() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

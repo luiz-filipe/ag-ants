@@ -64,7 +64,11 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 
 	@Override
 	public double collectFood() {
-		this.amountOfFoodCarring = ((FoodSourceNode) this.getCurrentNode())
+		//TODO re-think how should collect and deposit food.... don't think it's
+		// a good a idea to do casting like this... or at least need to think
+		// about synchronisation because these methods will be called from
+		// outside the agent.
+		this.amountOfFoodCarring = ((FoodSourceNode) super.getCurrentNode())
 				.collectFood(((AntType) this.getAgentType())
 						.getAmountOfFoodCapableToCollect());
 
@@ -232,7 +236,7 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 
 	@Override
 	public synchronized void depositFood() {
-		((NestNode) this.getCurrentNode())
+		((NestNode) super.getCurrentNode())
 				.depositFood(this.amountOfFoodCarring);
 	}
 
@@ -280,7 +284,10 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 			columnsOffsetFromNest--;
 			break;
 		}
-
 	}
-
+	
+	@Override
+	public PheromoneNode getCurrentNode() {
+		return (PheromoneNode) super.getCurrentNode();
+	}
 }
