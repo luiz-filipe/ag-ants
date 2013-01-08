@@ -74,7 +74,7 @@ public interface Ant {
 	 * to do that is to deposit big quantities of chemical stimulus to tell it
 	 * fellow agents something. For example, when a worker is caring food, it
 	 * deposits more ForageStimulus than when it is not caring food. That
-	 * indirectively tells other ants that they are on the right path that leads
+	 * interactively tells other ants that they are on the right path that leads
 	 * to a food source.
 	 * 
 	 * So this method deposits the normal amount of stimulus multiplied by the
@@ -105,8 +105,17 @@ public interface Ant {
 	Coordinate getVectorToNest();
 
 	/**
+	 * Returns the node the ant is currently at.
 	 * 
 	 * @return PheromoneNode The current node the ant is in the environment
 	 */
 	PheromoneNode getCurrentNode();
+	
+	/**
+	 * Moves the agent to the neighbour in the specified direction and updates
+	 * the agent's internal navigation and memory mechanisms.
+	 * 
+	 * @param direction Direction of neighbour node that the ant will move to
+	 */
+	void moveToNeighbour(Direction direction);
 }

@@ -36,7 +36,7 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 	@GuardedBy("this")
 	private Direction movingDirection;
 	@GuardedBy("this")
-	private final Queue<Node> memory;
+	protected final Queue<Node> memory;
 	@GuardedBy("this")
 	private double amountOfFoodCarring = 0;
 	@GuardedBy("this")
@@ -289,5 +289,12 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 	@Override
 	public PheromoneNode getCurrentNode() {
 		return (PheromoneNode) super.getCurrentNode();
+	}
+
+	@Override
+	public void moveToNeighbour(Direction direction) {
+		this.getCurrentNode().getNeighbour(direction).addAgent(this);
+		this.executePathIntegration(direction);
+		this.addToMemory(this.getCurrentNode().getNeighbour(direction));
 	}
 }

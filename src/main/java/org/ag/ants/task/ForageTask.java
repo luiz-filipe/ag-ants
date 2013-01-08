@@ -1,12 +1,12 @@
 package org.ag.ants.task;
 
 import org.ag.ants.env.ChemicalCommStimulus;
-import org.ag.ants.env.FoodSourceNode;
 import org.ag.ants.env.PheromoneNode;
 import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.common.agent.Agent;
 import org.ag.common.env.Direction;
 import org.ag.common.task.AbstractTask;
+import org.ag.ants.agent.impl.AntAgent;
 
 /**
  * 
@@ -42,13 +42,7 @@ public class ForageTask extends AbstractTask {
 			}
 		}
 		
-		ant.setCurrentNode(ant.getCurrentNode().getNeighbour(directionToMove));
-		
-		if (ant.getCurrentNode() instanceof FoodSourceNode) {
-			//TODO pick up food.
-		}
-		
-
+		((AntAgent) ant).moveToNeighbour(directionToMove);
 	}
 	
 	/**
