@@ -292,4 +292,17 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 		this.executePathIntegration(direction);
 		this.addToMemory(this.getCurrentNode().getNeighbour(direction));
 	}
+	
+	@Override
+	public boolean isInNest() {
+		return (this.getCurrentNode() instanceof NestNode);
+	}
+	
+	@Override
+	public boolean isInHomeNest() {
+		final Coordinate c = this.getVectorToNest();
+		
+		return (this.getCurrentNode() instanceof NestNode) && 
+				((c.getColumn() == 0) && (c.getLine() == 0));
+	}
 }

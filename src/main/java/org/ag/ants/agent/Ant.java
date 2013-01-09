@@ -90,10 +90,10 @@ public interface Ant {
 	/**
 	 * If an agent is caring food, it will be able to deposit the food is caring
 	 * in a nest.
-	 *
+	 * 
 	 */
 	void depositFood();
-	
+
 	/**
 	 * Returns the resulting vector of the path integration processed by the
 	 * agent.
@@ -107,7 +107,24 @@ public interface Ant {
 	 * Moves the agent to the neighbour in the specified direction and updates
 	 * the agent's internal navigation and memory mechanisms.
 	 * 
-	 * @param direction Direction of neighbour node that the ant will move to
+	 * @param direction
+	 *            Direction of neighbour node that the ant will move to
 	 */
 	void moveToNeighbour(Direction direction);
+
+	/**
+	 * True if the ant is currently in a node that belongs to a nest. It does
+	 * not necessarily means that the ant is in the nest it belongs to.
+	 * 
+	 * @return Boolean that indicates if the ant is in a nest
+	 */
+	boolean isInNest();
+
+	/**
+	 * True if the ant is currently in a node that belongs to the nest the ant
+	 * belong to.
+	 * 
+	 * @return Boolean that indicates if the ant is in the home nest
+	 */
+	boolean isInHomeNest();
 }

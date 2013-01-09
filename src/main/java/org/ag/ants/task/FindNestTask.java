@@ -6,10 +6,10 @@ import org.ag.common.env.Coordinate;
 import org.ag.common.env.Direction;
 import org.ag.common.task.AbstractTask;
 
-public class FindHomeTask extends AbstractTask {
+public class FindNestTask extends AbstractTask {
 	public static final String NAME = "ant:task:find-home";
 	
-	public FindHomeTask() {
+	public FindNestTask() {
 		super(NAME);
 	}
 
@@ -39,20 +39,6 @@ public class FindHomeTask extends AbstractTask {
 		
 		if (c.getColumn() > 0) {
 			if (c.getLine() == 0) {
-				ant.moveToNeighbour(Direction.WEST);
-			}
-			
-			if (c.getLine() > 0) {
-				ant.moveToNeighbour(Direction.NORTH_WEST);
-			}
-			
-			if (c.getLine() < 0) {
-				ant.moveToNeighbour(Direction.SOUTH_WEST);
-			}
-		}
-		
-		if (c.getColumn() < 0) {
-			if (c.getLine() == 0) {
 				ant.moveToNeighbour(Direction.EAST);
 			}
 			
@@ -62,6 +48,20 @@ public class FindHomeTask extends AbstractTask {
 			
 			if (c.getLine() < 0) {
 				ant.moveToNeighbour(Direction.SOUTH_EAST);
+			}
+		}
+		
+		if (c.getColumn() < 0) {
+			if (c.getLine() == 0) {
+				ant.moveToNeighbour(Direction.WEST);
+			}
+			
+			if (c.getLine() > 0) {
+				ant.moveToNeighbour(Direction.NORTH_WEST);
+			}
+			
+			if (c.getLine() < 0) {
+				ant.moveToNeighbour(Direction.SOUTH_WEST);
 			}
 		}
 	}
