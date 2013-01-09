@@ -287,11 +287,6 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 	}
 	
 	@Override
-	public PheromoneNode getCurrentNode() {
-		return (PheromoneNode) super.getCurrentNode();
-	}
-
-	@Override
 	public void moveToNeighbour(Direction direction) {
 		this.getCurrentNode().getNeighbour(direction).addAgent(this);
 		this.executePathIntegration(direction);
