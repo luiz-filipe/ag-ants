@@ -7,6 +7,8 @@ import org.ag.common.agent.Agent;
 import org.ag.common.env.Direction;
 import org.ag.common.task.AbstractTask;
 import org.ag.ants.agent.impl.AntAgent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -15,16 +17,9 @@ import org.ag.ants.agent.impl.AntAgent;
  */
 //TODO document
 public class ForageTask extends AbstractTask {
+	private static final Logger logger = LoggerFactory
+			.getLogger(ForageTask.class);
 	public static final String NAME = "ant:task:forage";
-
-	// Represents the probability of a node in any possible direction (there
-	// are 8 in total) of being picked.
-	private static final double initial_proability = 1 / 8;
-
-	// If a node has some pheromone deposited in it, the pheromone_factor can
-	// be added to increase the probability of nodes with pheromone being
-	// chosen instead of nodes with no pheromone at all.
-	private static final double pheromone_factor = 1;
 
 	public ForageTask() {
 		super(NAME);
@@ -45,104 +40,124 @@ public class ForageTask extends AbstractTask {
 		((AntAgent) ant).moveToNeighbour(directionToMove);
 	}
 	
+	//TODO update documentation
 	/**
-	 * Uses the forage chemical stimulus for deciding where the agent should go
-	 * next. Each node around the agent has the initial probability of being
-	 * picked of 1/8, this is multiplied by the resulting of the sum 
-	 * (pheromone_factor + the actual pheromone concentration in the neighbour 
-	 * node). The final probability for each neighbour is used in a monte-carlo
-	 * like decision structure.
-	 * 
 	 * Note that this implementation does not take in consideration the
 	 * direction the ant is travelling. This could be important otherwise the
 	 * ant might get stuck going back and forth for no reason.
+	 * 
+	 * Also remember that we have 8 possible directions to move to.
 	 * 
 	 * @param ant Agent that will be moved to the new location
 	 * @return Direction of the neighbour node the agent will move to.
 	 */
 	private static Direction chooseDirectionToMove(final Agent ant) {
-		final double intensityNorth = ForageTask.getForageIntensity(
-				Direction.NORTH, ant);
-		final double intensityNorthEast = ForageTask.getForageIntensity(
-				Direction.NORTH_EAST, ant);
-		final double intensityEast = ForageTask.getForageIntensity(
-				Direction.EAST, ant);
-		final double intensitySouthEast = ForageTask.getForageIntensity(
-				Direction.SOUTH_EAST, ant);
-		final double intensitySouth = ForageTask.getForageIntensity(
-				Direction.SOUTH, ant);
-		final double intensitySouthWest = ForageTask.getForageIntensity(
-				Direction.SOUTH_WEST, ant);
-		final double intensityWest = ForageTask.getForageIntensity(
-				Direction.WEST, ant);
-		final double intensityNorthWest = ForageTask.getForageIntensity(
-				Direction.NORTH_WEST, ant);
+		final double[] intensities = new double[8];
+		final double[] intensityRates = new double[8];
+		double minimumIntensityRate = 0;
+		
+		intensities[0] = ForageTask.getForageIntensity(Direction.NORTH, ant);
+		intensities[1] = ForageTask.getForageIntensity(Direction.NORTH_EAST, ant);
+		intensities[2] = ForageTask.getForageIntensity(Direction.EAST, ant);
+		intensities[3] = ForageTask.getForageIntensity(Direction.SOUTH_EAST, ant);
+		intensities[4] = ForageTask.getForageIntensity(Direction.SOUTH, ant);
+		intensities[5] = ForageTask.getForageIntensity(Direction.SOUTH_WEST, ant);
+		intensities[6] = ForageTask.getForageIntensity(Direction.WEST, ant);
+		intensities[7] = ForageTask.getForageIntensity(Direction.NORTH_WEST, ant);
 
-		final double sumOfIntensities = intensityNorth + intensityNorthEast
-				+ intensityEast + intensitySouthEast + intensitySouth
-				+ intensitySouthWest + intensityWest + intensityNorthWest;
+//		logger.trace("Intensities of neighbour nodes: ");
+//		logger.trace(" - north: {}", intensities[0]);
+//		logger.trace(" - north-east: {}", intensities[1]);
+//		logger.trace(" - east: {}", intensities[2]);
+//		logger.trace(" - south-east: {}", intensities[3]);
+//		logger.trace(" - south: {}", intensities[4]);
+//		logger.trace(" - south-west: {}", intensities[5]);
+//		logger.trace(" - west: {}", intensities[6]);
+//		logger.trace(" - north-west: {}", intensities[7]);
+		
+		// We square the intensities to give an exponential curve to the
+		// final probabilities, otherwise it would be linear.
+		for (int i = 0; i < 8; i++) {
+			intensities[i] = intensities[i] * intensities[i];
+		}
+		
+		final double sumOfIntensities = intensities[0] + intensities[1] + 
+				intensities[2] + intensities[3] + intensities[4] +
+				intensities[5] + intensities[6] + intensities[7];
 
-		final double northRate = intensityNorth / sumOfIntensities;
-		final double northEastRate = intensityNorthEast / sumOfIntensities;
-		final double eastRate = intensityEast / sumOfIntensities;
-		final double southEastRate = intensitySouthEast / sumOfIntensities;
-		final double southRate = intensitySouth / sumOfIntensities;
-		final double southWestRate = intensitySouthWest / sumOfIntensities;
-		final double westRate = intensityWest / sumOfIntensities;
+		intensityRates[0] = intensities[0] / sumOfIntensities;
+		intensityRates[1] = intensities[1] / sumOfIntensities;
+		intensityRates[2] = intensities[2] / sumOfIntensities;
+		intensityRates[3] = intensities[3] / sumOfIntensities;
+		intensityRates[4] = intensities[4] / sumOfIntensities;
+		intensityRates[5] = intensities[5] / sumOfIntensities;
+		intensityRates[6] = intensities[6] / sumOfIntensities;
+		intensityRates[7] = intensities[7] / sumOfIntensities;
+		
+		// find the minimum non-zero intensity rate, that will be assigned to
+		// the neighbours nodes with no forage pheromone in it. Note that all
+		// the other nodes will have this intensity rate to theirs and the rates
+		// will be recalculated again.
+		for (int i = 0; i < 8; i++) {
+			if (intensityRates[i] < minimumIntensityRate) {
+				minimumIntensityRate = intensityRates[i];
+			}
+		}
+		
+		double finalSumIntensityRates = 0;
 
-		final double probabilityNorth = initial_proability
-				* (pheromone_factor + northRate);
-		final double probabilityNorthEast = initial_proability
-				* (pheromone_factor + northEastRate);
-		final double probabilityEast = initial_proability
-				* (pheromone_factor + eastRate);
-		final double probabilitySouthEast = initial_proability
-				* (pheromone_factor + southEastRate);
-		final double probabilitySouth = initial_proability
-				* (pheromone_factor + southRate);
-		final double probabilitySouthWest = initial_proability
-				* (pheromone_factor + southWestRate);
-		final double probabilityWest = initial_proability
-				* (pheromone_factor + westRate);
+		for (int i = 0; i < 8; i++) {
+			intensityRates[i] = intensityRates[i] + minimumIntensityRate;
+			finalSumIntensityRates = finalSumIntensityRates + intensityRates[i];
+		}
+
+		intensityRates[0] = intensityRates[0] / finalSumIntensityRates;
+		intensityRates[1] = intensityRates[1] / finalSumIntensityRates;
+		intensityRates[2] = intensityRates[2] / finalSumIntensityRates;
+		intensityRates[3] = intensityRates[3] / finalSumIntensityRates;
+		intensityRates[4] = intensityRates[4] / finalSumIntensityRates;
+		intensityRates[5] = intensityRates[5] / finalSumIntensityRates;
+		intensityRates[6] = intensityRates[6] / finalSumIntensityRates;
+		intensityRates[7] = intensityRates[7] / finalSumIntensityRates;
 		
 		final double randomPoint = Math.random();
-		double cumulativeSum = probabilityNorth;
+		double cumulativeSum = intensityRates[0];
 		
 		if (randomPoint <= cumulativeSum) {
 			return Direction.NORTH;
 		}
 		
-		cumulativeSum = cumulativeSum + probabilityNorthEast;
+		cumulativeSum = cumulativeSum + intensityRates[1];
 		
 		if (randomPoint <= cumulativeSum) {
 			return Direction.NORTH_EAST;
 		}
 		
-		cumulativeSum = cumulativeSum + probabilityEast;
+		cumulativeSum = cumulativeSum + intensityRates[2];
 
 		if (randomPoint <= cumulativeSum) {
 			return Direction.EAST;
 		}
 		
-		cumulativeSum = cumulativeSum + probabilitySouthEast;
+		cumulativeSum = cumulativeSum + intensityRates[3];
 		
 		if (randomPoint <= cumulativeSum) {
 			return Direction.SOUTH_EAST;
 		}
 		
-		cumulativeSum = cumulativeSum + probabilitySouth;
+		cumulativeSum = cumulativeSum + intensityRates[4];
 		
 		if (randomPoint <= cumulativeSum) {
 			return Direction.SOUTH;
 		}
 		
-		cumulativeSum = cumulativeSum + probabilitySouthWest;
+		cumulativeSum = cumulativeSum + intensityRates[5];
 		
 		if (randomPoint <= cumulativeSum) {
 			return Direction.SOUTH_WEST;
 		}
 		
-		cumulativeSum = cumulativeSum + probabilityWest;
+		cumulativeSum = cumulativeSum + intensityRates[6];
 		
 		if (randomPoint <= cumulativeSum) {
 			return Direction.WEST;

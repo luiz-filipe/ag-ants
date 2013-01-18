@@ -8,7 +8,7 @@ import java.awt.Dimension;
 import org.ag.ants.agent.impl.AntAgent;
 import org.ag.ants.env.AntNest;
 import org.ag.ants.env.EnvironmentFactory;
-import org.ag.ants.task.FindNestTask;
+import org.ag.ants.task.FindHomeNestTask;
 import org.ag.ants.test.mock.TestAntAgent;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
@@ -16,7 +16,7 @@ import org.ag.common.task.Task;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FindNestTaskTest {
+public class FindHomeNestTaskTest {
 	private final int nLines = 20;
 	private final int nColumns = 20;
 	private Node[][] env;
@@ -31,7 +31,7 @@ public class FindNestTaskTest {
 	
 	@Test
 	public void findNestTest() {
-		final Task task = new FindNestTask();
+		final Task task = new FindHomeNestTask();
 		final AntNest nest = new AntNest("nest", new Dimension(1, 1), Color.BLACK);
 		nest.connectToNeighbours(env[2][8]);
 		

@@ -1,15 +1,16 @@
 package org.ag.ants.task;
 
 import org.ag.ants.agent.Ant;
+import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.common.agent.Agent;
 import org.ag.common.env.Coordinate;
 import org.ag.common.env.Direction;
 import org.ag.common.task.AbstractTask;
 
-public class FindNestTask extends AbstractTask {
+public class FindHomeNestTask extends AbstractTask {
 	public static final String NAME = "ant:task:find-home";
 	
-	public FindNestTask() {
+	public FindHomeNestTask() {
 		super(NAME);
 	}
 
@@ -64,5 +65,7 @@ public class FindNestTask extends AbstractTask {
 				ant.moveToNeighbour(Direction.SOUTH_WEST);
 			}
 		}
+		
+		ant.incrementStimulusIntensity(ForageStimulusType.TYPE);
 	}
 }

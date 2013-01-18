@@ -1,6 +1,6 @@
 package org.ag.ants.agent.impl;
 
-import org.ag.ants.task.FindNestTask;
+import org.ag.ants.task.FindHomeNestTask;
 import org.ag.ants.task.ForageTask;
 import org.ag.common.env.Node;
 import org.slf4j.Logger;
@@ -22,10 +22,10 @@ public class WorkerAntAgent extends AntAgent {
 				this.getTaskByName(ForageTask.NAME).execute(this);
 			
 			} else {
-				this.getTaskByName(FindNestTask.NAME).execute(this);
+				this.getTaskByName(FindHomeNestTask.NAME).execute(this);
 				
 				if (this.isInHomeNest()) {
-					// drop food into the nest
+					this.depositFood();
 				}
 			}
 			

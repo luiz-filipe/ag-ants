@@ -6,14 +6,21 @@ import java.awt.Dimension;
 
 import org.ag.ants.agent.impl.AntAgent;
 import org.ag.ants.env.EnvironmentFactory;
+import org.ag.ants.env.PheromoneNode;
+import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.ants.test.mock.TestAntAgent;
 import org.ag.common.env.Coordinate;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AntAgentTest {
+	private static final Logger logger = LoggerFactory
+			.getLogger(AntAgentTest.class);
+	
 	private final int nLines = 20;
 	private final int nColumns = 20;
 	private Node[][] env;
@@ -34,6 +41,7 @@ public class AntAgentTest {
 	public void pathIntegrationTest() {
 		assertTrue(ant.getVectorToNest().equals(new Coordinate(0, 0)));
 		assertTrue(ant.getCurrentNode().getId().equals("n-10,10"));
+		
 		for (int i = 0; i < 5; i++) {
 			ant.moveToNeighbour(Direction.SOUTH);
 		}
@@ -56,7 +64,7 @@ public class AntAgentTest {
 	 */
 	@Test
 	public void memoryCapacityTest() {
-		TestAntAgent testAnt = (TestAntAgent) ant;
+		final TestAntAgent testAnt = (TestAntAgent) ant;
 		assertTrue(ant.getLatestNodeFromMemory() == null);
 		
 		for (int i = 0; i < 5; i++) {
@@ -69,5 +77,17 @@ public class AntAgentTest {
 			ant.moveToNeighbour(Direction.NORTH);
 		}
 		assertTrue(testAnt.getNumberOfNodesInMemory() == 10);
+	}
+	
+	@Test
+	public void pheromoneIncrementTest() {
+		final TestAntAgent testAnt = (TestAntAgent) ant;
+		
+		testAnt.incrementStimulusIntensity(ForageStimulusType.TYPE);
+		PheromoneNode node = (PheromoneNode) testAnt.getCurrentNode().getNeighbour(Direction.NORTH);
+		
+		logger.info("North: {}", node.getCommunicationStimulus(ForageStimulusType.TYPE).getIntensity());
+		
+		//TODO finish test
 	}
 }

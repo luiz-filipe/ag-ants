@@ -83,6 +83,12 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 	@Override
 	public void incrementStimulusIntensity(
 			final ChemicalCommStimulusType chemicalCommStimulusType) {
+		
+		// if the agent is in a nest it does not increment the chemical stimulus
+		if (this.isInNest()) {
+			return;
+		}
+		
 		PheromoneNode currentNode = (PheromoneNode) this.getCurrentNode();
 		this.updateNeighbour(currentNode, chemicalCommStimulusType, 0);
 
@@ -200,8 +206,7 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 							this.getAgentType().getStimulusIncrement(
 									chemicalCommStimulusType.getName()));
 			logger.trace(
-					"Node {} updated with {}",
-					node.getId(),
+					"Node {} updated with {}", node.getId(),
 					this.getAgentType().getStimulusIncrement(
 							chemicalCommStimulusType.getName()));
 
@@ -289,6 +294,8 @@ public abstract class AntAgent extends TaskAgent implements Ant {
 	@Override
 	public void moveToNeighbour(Direction direction) {
 		this.getCurrentNode().getNeighbour(direction).addAgent(this);
+		this.movingDirection = direction;
+
 		this.executePathIntegration(direction);
 		this.addToMemory(this.getCurrentNode().getNeighbour(direction));
 	}
