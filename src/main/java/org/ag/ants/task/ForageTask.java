@@ -7,18 +7,26 @@ import org.ag.common.agent.Agent;
 import org.ag.common.env.Direction;
 import org.ag.common.task.AbstractTask;
 import org.ag.ants.agent.impl.AntAgent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
+ * The Forage task implements a node selection model to direct the ant towards 
+ * a food source using pheromone trails. This model takes in consideration the
+ * intensity of forage pheromone present in the 8 neighbour nodes around the 
+ * agent.
  * 
+ *  Firstly the pheromone intensities of the neighbour nodes are read. After
+ *  that the function <em>exp(intensity * coefficient)</em> is applied for each
+ *  of the neighbour nodes. The results from this step are used to calculate the
+ *  probability of each neighbour node of being selected.
+ *  
+ *  Note that the coefficient is an arbitrary number used to enhance the
+ *  probability of the nodes with pheromone in it. See 
+ *  <em>model/Node Selection.xlsx</em> for more details.
+ *  
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  * 
  */
-//TODO document
 public class ForageTask extends AbstractTask {
-	private static final Logger logger = LoggerFactory
-			.getLogger(ForageTask.class);
 	public static final String NAME = "ant:task:forage";
 
 	public ForageTask() {
@@ -40,8 +48,10 @@ public class ForageTask extends AbstractTask {
 		((AntAgent) ant).moveToNeighbour(directionToMove);
 	}
 	
-	//TODO update documentation
 	/**
+	 * Selects one neighbour node to move to, taking in consideration the amount
+	 * of pheromone present in the environment around the agent.
+	 * 
 	 * Note that this implementation does not take in consideration the
 	 * direction the ant is travelling. This could be important otherwise the
 	 * ant might get stuck going back and forth for no reason.
@@ -52,73 +62,28 @@ public class ForageTask extends AbstractTask {
 	 * @return Direction of the neighbour node the agent will move to.
 	 */
 	private static Direction chooseDirectionToMove(final Agent ant) {
-		final double[] intensities = new double[8];
+		final int coefficient = 3;
+		final double[] pheromoneIntensity = new double[8];
 		final double[] intensityRates = new double[8];
-		double minimumIntensityRate = 0;
+		double sumIntensities = 0;
 		
-		intensities[0] = ForageTask.getForageIntensity(Direction.NORTH, ant);
-		intensities[1] = ForageTask.getForageIntensity(Direction.NORTH_EAST, ant);
-		intensities[2] = ForageTask.getForageIntensity(Direction.EAST, ant);
-		intensities[3] = ForageTask.getForageIntensity(Direction.SOUTH_EAST, ant);
-		intensities[4] = ForageTask.getForageIntensity(Direction.SOUTH, ant);
-		intensities[5] = ForageTask.getForageIntensity(Direction.SOUTH_WEST, ant);
-		intensities[6] = ForageTask.getForageIntensity(Direction.WEST, ant);
-		intensities[7] = ForageTask.getForageIntensity(Direction.NORTH_WEST, ant);
-
-//		logger.trace("Intensities of neighbour nodes: ");
-//		logger.trace(" - north: {}", intensities[0]);
-//		logger.trace(" - north-east: {}", intensities[1]);
-//		logger.trace(" - east: {}", intensities[2]);
-//		logger.trace(" - south-east: {}", intensities[3]);
-//		logger.trace(" - south: {}", intensities[4]);
-//		logger.trace(" - south-west: {}", intensities[5]);
-//		logger.trace(" - west: {}", intensities[6]);
-//		logger.trace(" - north-west: {}", intensities[7]);
-		
-		// We square the intensities to give an exponential curve to the
-		// final probabilities, otherwise it would be linear.
-		for (int i = 0; i < 8; i++) {
-			intensities[i] = intensities[i] * intensities[i];
-		}
-		
-		final double sumOfIntensities = intensities[0] + intensities[1] + 
-				intensities[2] + intensities[3] + intensities[4] +
-				intensities[5] + intensities[6] + intensities[7];
-
-		intensityRates[0] = intensities[0] / sumOfIntensities;
-		intensityRates[1] = intensities[1] / sumOfIntensities;
-		intensityRates[2] = intensities[2] / sumOfIntensities;
-		intensityRates[3] = intensities[3] / sumOfIntensities;
-		intensityRates[4] = intensities[4] / sumOfIntensities;
-		intensityRates[5] = intensities[5] / sumOfIntensities;
-		intensityRates[6] = intensities[6] / sumOfIntensities;
-		intensityRates[7] = intensities[7] / sumOfIntensities;
-		
-		// find the minimum non-zero intensity rate, that will be assigned to
-		// the neighbours nodes with no forage pheromone in it. Note that all
-		// the other nodes will have this intensity rate to theirs and the rates
-		// will be recalculated again.
-		for (int i = 0; i < 8; i++) {
-			if (intensityRates[i] < minimumIntensityRate) {
-				minimumIntensityRate = intensityRates[i];
-			}
-		}
-		
-		double finalSumIntensityRates = 0;
+		pheromoneIntensity[0] = ForageTask.getForageIntensity(Direction.NORTH, ant);
+		pheromoneIntensity[1] = ForageTask.getForageIntensity(Direction.NORTH_EAST, ant);
+		pheromoneIntensity[2] = ForageTask.getForageIntensity(Direction.EAST, ant);
+		pheromoneIntensity[3] = ForageTask.getForageIntensity(Direction.SOUTH_EAST, ant);
+		pheromoneIntensity[4] = ForageTask.getForageIntensity(Direction.SOUTH, ant);
+		pheromoneIntensity[5] = ForageTask.getForageIntensity(Direction.SOUTH_WEST, ant);
+		pheromoneIntensity[6] = ForageTask.getForageIntensity(Direction.WEST, ant);
+		pheromoneIntensity[7] = ForageTask.getForageIntensity(Direction.NORTH_WEST, ant);
 
 		for (int i = 0; i < 8; i++) {
-			intensityRates[i] = intensityRates[i] + minimumIntensityRate;
-			finalSumIntensityRates = finalSumIntensityRates + intensityRates[i];
+			pheromoneIntensity[i] = Math.exp(pheromoneIntensity[i] * coefficient);
+			sumIntensities = sumIntensities + pheromoneIntensity[i];
 		}
-
-		intensityRates[0] = intensityRates[0] / finalSumIntensityRates;
-		intensityRates[1] = intensityRates[1] / finalSumIntensityRates;
-		intensityRates[2] = intensityRates[2] / finalSumIntensityRates;
-		intensityRates[3] = intensityRates[3] / finalSumIntensityRates;
-		intensityRates[4] = intensityRates[4] / finalSumIntensityRates;
-		intensityRates[5] = intensityRates[5] / finalSumIntensityRates;
-		intensityRates[6] = intensityRates[6] / finalSumIntensityRates;
-		intensityRates[7] = intensityRates[7] / finalSumIntensityRates;
+		
+		for (int i = 0; i < 8; i++) {
+			intensityRates[i] = pheromoneIntensity[i] / sumIntensities;
+		}
 		
 		final double randomPoint = Math.random();
 		double cumulativeSum = intensityRates[0];

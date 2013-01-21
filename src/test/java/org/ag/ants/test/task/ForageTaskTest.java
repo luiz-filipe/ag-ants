@@ -30,12 +30,12 @@ public class ForageTaskTest {
 	 * Following these concentrations the probability of each neighbour being
 	 * picked up is:
 	 * 
-	 * - N: 34% - NE: 25% - E: 18% - SE: 11% - S: 7% - SW: 3%; - W: 1%; - NW: 1%
+	 * - N: 29% - NE: 21% - E: 16% - SE: 12% - S: 9% - SW: 6%; - W: 5%; - NW: 3%
 	 */
 	@Test
 	public void nodeSelectionTest() {
 		final int numberOfRepetitions = 10000;
-		final double allowedErrorMargin = 0.05;
+		final double allowedErrorMargin = 0.03;
 		final Node[][] env = EnvironmentFactory
 				.createPheromoneGrid(new Dimension(3, 3));
 		final AntAgent ant = new TestAntAgent("ant", env[1][1], false);
@@ -156,30 +156,29 @@ public class ForageTaskTest {
 		logger.info("Percentage W: {}", percentageW);
 		logger.info("Percentage NW: {}", percentageNW);
 		
-		assertTrue((percentageN > (0.34 - allowedErrorMargin))
-				&& (percentageN < (0.34 + allowedErrorMargin)));
+		assertTrue((percentageN > (0.29 - allowedErrorMargin))
+				&& (percentageN < (0.29 + allowedErrorMargin)));
 		
-		assertTrue((percentageNE > (0.25 - allowedErrorMargin))
-				&& (percentageNE < (0.25 + allowedErrorMargin)));
+		assertTrue((percentageNE > (0.21 - allowedErrorMargin))
+				&& (percentageNE < (0.21 + allowedErrorMargin)));
 		
-		assertTrue((percentageE > (0.18 - allowedErrorMargin))
-				&& (percentageE < (0.18 + allowedErrorMargin)));
+		assertTrue((percentageE > (0.16 - allowedErrorMargin))
+				&& (percentageE < (0.16 + allowedErrorMargin)));
 		
-		assertTrue((percentageSE > (0.11 - allowedErrorMargin))
-				&& (percentageSE < (0.11 + allowedErrorMargin)));
+		assertTrue((percentageSE > (0.12 - allowedErrorMargin))
+				&& (percentageSE < (0.12 + allowedErrorMargin)));
 		
-		assertTrue((percentageS > (0.07 - allowedErrorMargin))
-				&& (percentageS < (0.07 + allowedErrorMargin)));
+		assertTrue((percentageS > (0.09 - allowedErrorMargin))
+				&& (percentageS < (0.09 + allowedErrorMargin)));
 		
-		assertTrue((percentageSW > (0.03 - allowedErrorMargin))
-				&& (percentageSW < (0.03 + allowedErrorMargin)));
+		assertTrue((percentageSW > (0.06 - allowedErrorMargin))
+				&& (percentageSW < (0.06 + allowedErrorMargin)));
 		
-		assertTrue((percentageW > (0.01 - allowedErrorMargin))
-				&& (percentageW < (0.01 + allowedErrorMargin)));
+		assertTrue((percentageW > (0.05 - allowedErrorMargin))
+				&& (percentageW < (0.05 + allowedErrorMargin)));
 		
-		assertTrue((percentageNW > (0.01 - allowedErrorMargin))
-				&& (percentageNW < (0.01 + allowedErrorMargin)));
+		assertTrue((percentageNW > (0.03 - allowedErrorMargin))
+				&& (percentageNW < (0.03 + allowedErrorMargin)));
 
 	}
-
-}
+ }
