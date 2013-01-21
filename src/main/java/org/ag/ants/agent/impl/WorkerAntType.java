@@ -17,17 +17,13 @@ import org.ag.common.task.Task;
 /**
  * This type represent ants from the worker caste in the colony. They are the
  * main responsible for foraging. Ants from this caste execute the following
- * tasks: - ForageTask - FindHometask - FindandHidInHest
- * 
- * Workers have the <em>warningThreshold</em> field that defines what is the
- * warning pheromone threshold to trigger their reaction to danger.
- * 
- * @see WarningStimulusType
+ * tasks: 
+ *    - ForageTask
+ *    - FindHomeNestTask
  * 
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  * 
  */
-// TODO update documentation
 @ThreadSafe
 public enum WorkerAntType implements AntType {
 	TYPE;

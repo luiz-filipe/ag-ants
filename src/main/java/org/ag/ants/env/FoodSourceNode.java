@@ -1,12 +1,23 @@
 package org.ag.ants.env;
 
 import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 
 import org.ag.common.env.BasicNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//TODO document
+/**
+ * A FoodSourceNode object represents a node that contain some food. The amount
+ * of food is set at creation time and ants that enter that node are able to 
+ * collect food from it.
+ * 
+ * If the node has ran out of food and an ant tries to collect food from it, the
+ * node gives 'zero' food for the agent, no exception is risen.
+ * 
+ * @author Luiz Abrahao <luiz@luizabrahao.com>
+ */
+@ThreadSafe
 public class FoodSourceNode extends BasicNode {
 	private static final Logger logger = LoggerFactory
 			.getLogger(FoodSourceNode.class);
