@@ -32,7 +32,7 @@ public class FindHomeNestTaskTest {
 	@Test
 	public void findNestTest() {
 		final Task task = new FindHomeNestTask();
-		final AntNest nest = new AntNest("nest", new Dimension(1, 1), Color.BLACK);
+		final AntNest nest = new AntNest("nest", new Dimension(1, 1), 10, Color.BLACK);
 		nest.connectToNeighbours(env[2][8]);
 		
 		ant = new TestAntAgent("ant", env[2][8], true);

@@ -3,6 +3,7 @@ package org.ag.ants.test.simulation;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import org.ag.ants.env.NestNode;
 import org.ag.ants.env.PheromoneNode;
@@ -19,7 +20,7 @@ public class AntEnvironmnetTest {
 	public void nodePlacementTest() {
 		final AntEnvironment env = new AntEnvironment(5, 5);
 		
-		env.createNestAt("nest", 1, 1, 3, 3, Color.BLACK);
+		env.createNestAt("nest", 1, 1, new Dimension(3, 3), 10, Color.BLACK);
 		
 		for (int l = 0; l < 5; l++) {
 			for (int c = 0; c < 5; c++) {

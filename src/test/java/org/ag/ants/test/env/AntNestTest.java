@@ -18,7 +18,7 @@ public class AntNestTest {
 		final int nColumns = 5;
 		
 		final Node[][] env = EnvironmentFactory.createPheromoneGrid(new Dimension(nLines, nColumns));
-		final AntNest nest = new AntNest("nest", new Dimension(3, 3), Color.BLACK);
+		final AntNest nest = new AntNest("nest", new Dimension(3, 3), 10, Color.BLACK);
 		
 		nest.connectToNeighbours(env[1][1]);
 
