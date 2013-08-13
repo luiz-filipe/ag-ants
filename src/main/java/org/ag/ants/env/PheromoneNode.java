@@ -65,4 +65,11 @@ public class PheromoneNode extends BasicNode {
 				.getCommunicationStimulus(chemicalCommStimulusType);
 		c.increaseIntensity(amount);
 	}
+
+	@Override
+	public String toString() {
+		return "PheromoneNode [id = " + getId() + "]";
+	}
+	
+	
 }

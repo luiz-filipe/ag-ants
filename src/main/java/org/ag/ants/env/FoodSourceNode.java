@@ -56,4 +56,12 @@ public class FoodSourceNode extends BasicNode {
 			return amountAvailable;
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "FoodSourceNode [id = " + getId()
+				+ ", amountOfFoodAvailable=" + amountOfFoodAvailable + "]";
+	}
+	
+	
 }

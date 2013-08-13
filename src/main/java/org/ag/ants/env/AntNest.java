@@ -81,6 +81,10 @@ public class AntNest extends EnvironmentElement {
 	}
 
 	public List<Future<Void>> open() {
+		if (ants.size() == 0) {
+			this.addBunchOfWorkers("worker:" + this.getId(), maximumNumberOfAnts);
+		}
+		
 		final List<Future<Void>> futures = new ArrayList<Future<Void>>();
 
 		for(AntAgent ant : this.ants) {
