@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  */
 @ThreadSafe
-public class FoodSourceNode extends BasicNode {
+public class FoodSourceNode extends PheromoneNode {
 	private static final Logger logger = LoggerFactory
 			.getLogger(FoodSourceNode.class);
 

@@ -45,6 +45,12 @@ public class ForageTask extends AbstractTask {
 			}
 		}
 		
+		// if the thread has been interrupted the directionToMove variable will
+		// be null
+		if (directionToMove == null) {
+			return;
+		}
+		
 		((AntAgent) ant).moveToNeighbour(directionToMove);
 	}
 	

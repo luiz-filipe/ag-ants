@@ -17,7 +17,7 @@ import org.ag.common.env.BasicNode;
  *
  */
 @ThreadSafe
-public class NestNode extends BasicNode {
+public class NestNode extends PheromoneNode {
 	@GuardedBy("this") private double amountOfFoodHeld = 0;
 
 	public synchronized double getAmountOfFoodHeld() {

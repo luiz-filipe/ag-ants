@@ -11,6 +11,7 @@ public class RoundFoodSources {
 	public static void main(String[] args) {
 		final AntEnvironment env = new AntEnvironment(500, 500);
 		final AntSimulation sim = new AntSimulation("target/", env, 100);
+		final Color envColour = new Color(255, 255, 255, 0);
 		
 		env.createNestAt("nest", env.getHeight() / 2 - 5, env.getWidth() / 2 - 5, new Dimension(10, 10), 100, Color.BLUE);
 		env.addFoodSourceAt("fs-01", 100, 100, new Dimension(10, 10), Color.GREEN, 30.0);
@@ -24,8 +25,16 @@ public class RoundFoodSources {
 		
 		
 		sim.scheduleEnvironmentElementRenderer("round-env.png", 0, TimeUnit.SECONDS);
-		sim.scheduleEnvironmentExploredRenderer("round-exp.png", 3, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-10s.png", envColour, Color.blue, 10, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-25s.png", envColour, Color.red, 25, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-50s.png", envColour, Color.orange, 50, TimeUnit.SECONDS);
+		sim.schedulePheromoneRenderer("round-pheromone-50s.png", 50, TimeUnit.SECONDS);
 		
-		sim.run(5, TimeUnit.SECONDS);
+		sim.composeImage("round-exp-final.png", new String[]{"round-exp-50s.png", 
+				"round-exp-25s.png",
+				"round-exp-10s.png",
+				"round-env.png"});
+		
+		sim.run(50, TimeUnit.SECONDS);
 	}
 }

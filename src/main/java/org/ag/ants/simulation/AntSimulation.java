@@ -1,10 +1,16 @@
 package org.ag.ants.simulation;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.ag.ants.env.AntNest;
+import org.ag.ants.renderer.PheromoneRenderer;
+import org.ag.common.renderer.Renderer;
 import org.ag.common.simulation.Environment;
 import org.ag.common.simulation.Simulation;
 import org.slf4j.Logger;
@@ -21,12 +27,27 @@ public class AntSimulation extends Simulation {
 		return ((AntEnvironment) this.getEnvironment()).getNests();
 	}
 	
+	public void schedulePheromoneRenderer(final String filename,
+			final long delay, final TimeUnit unit) {
+		Renderer r = new PheromoneRenderer(filename, this.getEnvironment());
+
+		this.scheduleRenderer(r, filename, delay, unit);
+	}
+	
+	public void schedulePheromoneRenderer(final String filename,
+			final Color colour, final long delay, final TimeUnit unit) {
+		Renderer r = new PheromoneRenderer(filename, this.getEnvironment(), colour);
+
+		this.scheduleRenderer(r, filename, delay, unit);
+	}
+	
 	@Override
 	public void run(long time, TimeUnit unit) {
+		final List<Future<Void>> antFutures = new ArrayList<Future<Void>>();
 		logger.info("Starting ant simulation...");
 		
 		for (AntNest nest : this.getAntNests()) {
-			nest.open();
+			antFutures.addAll(nest.open());
 		}
 		
 		executor.schedule(new Callable<Void>() {
@@ -51,6 +72,18 @@ public class AntSimulation extends Simulation {
 			}
 		}, time, unit);
 		
-		this.submitRenderers();
+		this.getRendererManager().run();
+		
+		for (Future<Void> antFuture : antFutures) {
+			try {
+				antFuture.get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
