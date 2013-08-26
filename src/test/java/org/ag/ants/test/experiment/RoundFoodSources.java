@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.concurrent.TimeUnit;
 
+import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.ants.simulation.AntEnvironment;
 import org.ag.ants.simulation.AntSimulation;
 
@@ -25,13 +26,18 @@ public class RoundFoodSources {
 		
 		
 		sim.scheduleEnvironmentElementRenderer("round-env.png", 0, TimeUnit.SECONDS);
-		sim.scheduleEnvironmentExploredRenderer("round-exp-10s.png", envColour, Color.blue, 10, TimeUnit.SECONDS);
-		sim.scheduleEnvironmentExploredRenderer("round-exp-25s.png", envColour, Color.red, 25, TimeUnit.SECONDS);
-		sim.scheduleEnvironmentExploredRenderer("round-exp-50s.png", envColour, Color.orange, 50, TimeUnit.SECONDS);
-		sim.schedulePheromoneRenderer("round-pheromone-50s.png", 50, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-10s.png", envColour, new Color(118, 87, 131), 10, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-20s.png", envColour, new Color(77, 175, 124), 20, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-30s.png", envColour, new Color(235, 201, 94), 30, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-40s.png", envColour, new Color(230, 93, 57), 40, TimeUnit.SECONDS);
+		sim.scheduleEnvironmentExploredRenderer("round-exp-50s.png", envColour, new Color(91, 81, 71), 50, TimeUnit.SECONDS);
+		sim.scheduleChemicalStimulusRenderer(ForageStimulusType.TYPE, "round-pheromone-50s.png", 50, TimeUnit.SECONDS);
 		
-		sim.composeImage("round-exp-final.png", new String[]{"round-exp-50s.png", 
-				"round-exp-25s.png",
+		sim.composeImage("round-exp-final.png", new String[]{
+				"round-exp-50s.png", 
+				"round-exp-40s.png",
+				"round-exp-30s.png",
+				"round-exp-20s.png",
 				"round-exp-10s.png",
 				"round-env.png"});
 		
