@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * @author Luiz Abrahao <luiz@luizabrahao.com>
  * 
  */
+//TODO add functionality to add/produce different types of ants.
 @ThreadSafe
 public class AntNest extends EnvironmentElement {
 	private static final Logger logger = LoggerFactory.getLogger(AntNest.class);

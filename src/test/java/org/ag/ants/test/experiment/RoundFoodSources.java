@@ -32,6 +32,8 @@ public class RoundFoodSources {
 		sim.scheduleEnvironmentExploredRenderer("round-exp-40s.png", envColour, new Color(230, 93, 57), 40, TimeUnit.SECONDS);
 		sim.scheduleEnvironmentExploredRenderer("round-exp-50s.png", envColour, new Color(91, 81, 71), 50, TimeUnit.SECONDS);
 		sim.scheduleChemicalStimulusRenderer(ForageStimulusType.TYPE, "round-pheromone-50s.png", 50, TimeUnit.SECONDS);
+		sim.scheduleChemicalStimulusRenderer(ForageStimulusType.TYPE, "round-pheromone-100s.png", 100, TimeUnit.SECONDS);
+		sim.scheduleChemicalStimulusRenderer(ForageStimulusType.TYPE, "round-pheromone-180s.png", 180, TimeUnit.SECONDS);
 		
 		sim.composeImage("round-exp-final.png", new String[]{
 				"round-exp-50s.png", 
@@ -41,6 +43,6 @@ public class RoundFoodSources {
 				"round-exp-10s.png",
 				"round-env.png"});
 		
-		sim.run(50, TimeUnit.SECONDS);
+		sim.run(180, TimeUnit.SECONDS);
 	}
 }

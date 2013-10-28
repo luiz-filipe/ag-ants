@@ -3,8 +3,6 @@ package org.ag.ants.env;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import org.ag.common.env.BasicNode;
-
 /**
  * A nest node is part of a ant nest. It is extends the BasicNode adding a
  * propriety that represents the amount of food that particular node is capable

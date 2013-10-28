@@ -57,7 +57,7 @@ public class ChemicalStimulusRenderer extends AbstractRenderer {
 				}
 				
 				if (intensity != 0) {
-					logger.debug("r=" + pheromoneColor.getRed() + ", g=" + pheromoneColor.getGreen() + ", b=" + pheromoneColor.getBlue() + ", a=" + Math.round(intensity * 255));
+					logger.trace("r=" + pheromoneColor.getRed() + ", g=" + pheromoneColor.getGreen() + ", b=" + pheromoneColor.getBlue() + ", a=" + Math.round(intensity * 255));
 					g2d.setColor(new Color(pheromoneColor.getRed(), pheromoneColor.getGreen(), pheromoneColor.getBlue(), (int) Math.round(intensity * 255)));
 				
 				} else {
