@@ -1,4 +1,4 @@
-package org.ag.ants.test.task;
+package org.ag.test.ants.task;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,7 +8,7 @@ import org.ag.ants.agent.impl.AntAgent;
 import org.ag.ants.env.EnvironmentFactory;
 import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.ants.task.ForageTask;
-import org.ag.ants.test.mock.TestAntAgent;
+import org.ag.test.ants.mock.TestAntAgent;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
 import org.ag.common.task.Task;

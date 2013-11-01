@@ -1,4 +1,4 @@
-package org.ag.ants.test.renderer;
+package org.ag.test.ants.renderer;
 
 public class StimulusDepositionRenderTest {
 

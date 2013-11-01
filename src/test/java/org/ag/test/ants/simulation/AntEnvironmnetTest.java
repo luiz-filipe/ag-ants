@@ -1,4 +1,4 @@
-package org.ag.ants.test.simulation;
+package org.ag.test.ants.simulation;
 
 import static org.junit.Assert.assertTrue;
 

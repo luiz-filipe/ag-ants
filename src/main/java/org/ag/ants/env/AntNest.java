@@ -14,127 +14,158 @@ import net.jcip.annotations.ThreadSafe;
 
 import org.ag.ants.agent.impl.AntAgent;
 import org.ag.ants.agent.impl.WorkerAntAgent;
+import org.ag.common.env.BasicEnvironmentElement;
 import org.ag.common.env.EnvironmentElement;
 import org.ag.common.env.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An AntNest is composed by an array of nestNode objects that represent an ant
- * nest. It has some utility methods for creating ants, it's also important to
- * note that a AntNest has a life-cycle because it executes its own tasks 
- * (agents) using its dedicated executor service, so the simulation handler must
- * call these methods when starting and finishing simulations.
- * 
- * The <em>defaultDelayOfTaskSubmission</em> determines how slow the nest will
- * submit its tasks (agents) to the executor. Instead of submitting all the
- * agents at the same time it submits one, waits for the period specified by
- * the <em>defaultDelayOfTaskSubmission</em> to submit the next one.
- * 
+ * An AntNest is composed by an array of nestNode objects that represent an ant nest. It has some utility methods for
+ * creating ants, it's also important to note that a AntNest has a life-cycle because it executes its own tasks (agents)
+ * using its dedicated executor service, so the simulation handler must call these methods when starting and finishing
+ * simulations.
+ *
+ * <p>The <em>defaultDelayOfTaskSubmission</em> determines how slow the nest will submit its tasks (agents) to the
+ * executor. Instead of submitting all the agents at the same time it submits one, waits for the period specified by the
+ * <em>defaultDelayOfTaskSubmission</em> to submit the next one.</p>
+ *
  * @author Luiz Abrahao <luiz@luizabrahao.com>
- * 
+ *
  */
-//TODO add functionality to add/produce different types of ants.
 @ThreadSafe
-public class AntNest extends EnvironmentElement {
-	private static final Logger logger = LoggerFactory.getLogger(AntNest.class);
-	private static long defaultDelayOfTaskSubmission = 100;
+public class AntNest extends BasicEnvironmentElement {
+    private static final Logger logger = LoggerFactory.getLogger(AntNest.class);
+    private static long defaultDelayOfTaskSubmission = 100;
 
-	private final int maximumNumberOfAnts;
-	private final List<AntAgent> ants = new ArrayList<AntAgent>();
+    private final int maximumNumberOfAnts;
+    private final List<AntAgent> ants = new ArrayList<AntAgent>();
+    private final ScheduledExecutorService executor;
 
-	private final ScheduledExecutorService executor;
+    /**
+     * Constructs an ant nest with an unique identifier, a dimension, the maximum number of ants the nest can generate
+     * and the colour it will be rendered.
+     *
+     * @param id nest's unique identifier.
+     * @param dimension nest's dimension.
+     * @param maximumNumberOfAnts maximum number of ants the nest can hold.
+     * @param colour colour the nest will be rendered.
+     */
+    public AntNest(final String id, final Dimension dimension, final int maximumNumberOfAnts, final Color colour) {
+        super(id, dimension, colour, EnvironmentFactory.createNestGrid(id, dimension));
 
-	public AntNest(final String id, final Dimension dimension,
-			final int maximumNumberOfAnts, final Color colour) {
+        this.maximumNumberOfAnts = maximumNumberOfAnts;
+        this.executor = Executors.newScheduledThreadPool(maximumNumberOfAnts);
+    }
 
-		super(id, dimension, colour, EnvironmentFactory.createNestGrid(id,
-				dimension));
+    /**
+     * Constructs an ant nest with an unique identifier, a dimension, the maximum number of ants the nest can generate.
+     * Nests created with this method will have the colour <i>RGB(140, 98, 57</i> as default.
+     *
+     * @param id nest's unique identifier.
+     * @param dimension nest's dimension.
+     * @param maximumNumberOfAnts maximum number of ants the nest can hold.
+     */
+    public AntNest(final String id, final Dimension dimension, final int maximumNumberOfAnts) {
+        super(id, dimension, new Color(140, 98, 57), EnvironmentFactory.createNestGrid(id, dimension));
 
-		this.maximumNumberOfAnts = maximumNumberOfAnts;
-		this.executor = Executors.newScheduledThreadPool(maximumNumberOfAnts);
-	}
+        this.maximumNumberOfAnts = maximumNumberOfAnts;
+        this.executor = Executors.newScheduledThreadPool(maximumNumberOfAnts);
+    }
 
-	public AntNest(final String id, final Dimension dimension,
-			final int maximumNumberOfAnts) {
-		super(id, dimension, new Color(140, 98, 57), EnvironmentFactory
-				.createNestGrid(id, dimension));
+    /**
+     * Returns the sum of the food held by all the nodes that form the nest.
+     *
+     * @return total of food held in the nest.
+     */
+    public double getTotalFoodHeld() {
+        double total = 0;
 
-		this.maximumNumberOfAnts = maximumNumberOfAnts;
-		this.executor = Executors.newScheduledThreadPool(maximumNumberOfAnts);
-	}
+        for (int l = 0; l < this.getDimension().height; l++) {
+            for (int c = 0; c < this.getDimension().width; c++) {
+                total = total + ((NestNode) this.getNode(l, c)).getAmountOfFoodHeld();
+            }
+        }
 
-	public double getTotalFoodHeld() {
-		double total = 0;
+        return total;
+    }
 
-		for (int l = 0; l < this.getDimension().height; l++) {
-			for (int c = 0; c < this.getDimension().width; c++) {
-				total = total
-						+ ((NestNode) this.getNode(l, c)).getAmountOfFoodHeld();
-			}
-		}
+    /**
+     * Returns the maximum number of ants the nest is capable of holding.
+     *
+     * @return number of agents the nest is capable of holding.
+     */
+    public int getMaximuNumberOfAnts() {
+        return this.maximumNumberOfAnts;
+    }
 
-		return total;
-	}
+    /**
+     * Activate the nest, the ants are submitted to the <i>Executor</i> framework. If no agents are added to the nest
+     * before opening it, the maximum number of ants are added to it automatically.
+     *
+     * @return list of Futures generated by the agents execution.
+     */
+    public List<Future<Void>> open() {
+        if (ants.size() == 0) {
+            this.addBunchOfWorkers("worker:" + this.getId(), maximumNumberOfAnts);
+        }
 
-	public int getMaximuNumberOfAnts() {
-		return this.maximumNumberOfAnts;
-	}
+        final List<Future<Void>> futures = new ArrayList<Future<Void>>();
 
-	public List<Future<Void>> open() {
-		if (ants.size() == 0) {
-			this.addBunchOfWorkers("worker:" + this.getId(), maximumNumberOfAnts);
-		}
-		
-		final List<Future<Void>> futures = new ArrayList<Future<Void>>();
+        for(AntAgent ant : this.ants) {
+            if (Thread.currentThread().isInterrupted()) {
+                return futures;
+            }
 
-		for(AntAgent ant : this.ants) {
-			if (Thread.currentThread().isInterrupted()) {
-				return futures;
-			}
-			
-			futures.add(executor.submit(ant));
-			
-			try {
-				Thread.sleep(defaultDelayOfTaskSubmission);
-			
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
-		}
-		
-		return futures;
-	}
+            futures.add(executor.submit(ant));
 
-	public void close() {
-		executor.shutdownNow();
-		logger.info("Nest [{}]: starting orderly shutdown process...",
-				this.getId());
+            try {
+                Thread.sleep(defaultDelayOfTaskSubmission);
 
-		try {
-			if (!executor.awaitTermination(30, TimeUnit.SECONDS)) {
-				logger.error("Could not kill nest '{}', forcing stop.",
-						this.getId());
-			}
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
 
-		} catch (InterruptedException e) {
-			executor.shutdownNow();
-			Thread.currentThread().interrupt();
-		}
-	}
+        return futures;
+    }
 
-	public void addBunchOfWorkers(final String prefix, final int numberOfAnts) {
-		final Random random = new Random();
+    /**
+     * Requests all agents to stop by shutting down the <i>Execution</i> service. It awaits all the threads to stop for
+     * 30 seconds, if they timeout it forces the shutdown.
+     */
+    public void close() {
+        executor.shutdownNow();
+        logger.info("Nest [{}]: starting orderly shutdown process...", this.getId());
 
-		// Distribute the new agents randomically throughout the nest's nodes.
-		for (int i = 0; i < numberOfAnts; i++) {
-			final Node randomNestNode = this.getNode(
-					random.nextInt(this.getDimension().height),
-					random.nextInt(this.getDimension().width));
+        try {
+            if (!executor.awaitTermination(30, TimeUnit.SECONDS)) {
+                logger.error("Could not kill nest '{}', forcing stop.", this.getId());
+            }
 
-			this.ants.add(new WorkerAntAgent(prefix + "-" + i, randomNestNode,
-					false));
-		}
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
 
-	}
+    /**
+     * Add the given number of ants of the Worker cast to the nest.
+     *
+     * @param prefix prefix used when generating the ant's unique identifier.
+     * @param numberOfAnts number of agents added to the nest.
+     */
+    public void addBunchOfWorkers(final String prefix, final int numberOfAnts) {
+        final Random random = new Random();
+
+        // Distribute the new agents randomly throughout the nest's nodes.
+        for (int i = 0; i < numberOfAnts; i++) {
+            final Node randomNestNode = this.getNode(
+                    random.nextInt(this.getDimension().height),
+                    random.nextInt(this.getDimension().width));
+
+            this.ants.add(new WorkerAntAgent(prefix + "-" + i, randomNestNode, false));
+        }
+
+    }
 }

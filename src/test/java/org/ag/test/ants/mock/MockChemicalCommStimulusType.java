@@ -1,4 +1,4 @@
-package org.ag.ants.test.mock;
+package org.ag.test.ants.mock;
 
 import org.ag.ants.env.ChemicalCommStimulusType;
 

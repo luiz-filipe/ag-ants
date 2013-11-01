@@ -1,4 +1,4 @@
-package org.ag.ants.test.experiment;
+package org.ag.test.ants.experiment;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package org.ag.ants.test.mock;
+package org.ag.test.ants.mock;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class TestAntAgent extends AntAgent {
 		}
 
 		@Override
-		public long getMilisecondsToWait() {
+		public long getMillisecondsToWait() {
 			return 200;
 		}
 	}

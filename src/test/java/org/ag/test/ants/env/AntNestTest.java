@@ -1,4 +1,4 @@
-package org.ag.ants.test.env;
+package org.ag.test.ants.env;
 
 import static org.junit.Assert.assertTrue;
 

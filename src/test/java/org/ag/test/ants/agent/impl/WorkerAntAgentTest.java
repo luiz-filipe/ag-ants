@@ -1,12 +1,9 @@
-package org.ag.ants.test.agent.impl;
-
-import static org.junit.Assert.*;
+package org.ag.test.ants.agent.impl;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.concurrent.TimeUnit;
 
-import org.ag.ants.env.impl.AntEnvironmentFactory;
 import org.ag.ants.env.impl.ForageStimulusType;
 import org.ag.ants.simulation.AntEnvironment;
 import org.ag.ants.simulation.AntSimulation;

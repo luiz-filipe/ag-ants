@@ -1,4 +1,4 @@
-package org.ag.ants.test.agent.impl;
+package org.ag.test.ants.agent.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,7 +8,7 @@ import org.ag.ants.agent.impl.AntAgent;
 import org.ag.ants.env.EnvironmentFactory;
 import org.ag.ants.env.PheromoneNode;
 import org.ag.ants.env.impl.ForageStimulusType;
-import org.ag.ants.test.mock.TestAntAgent;
+import org.ag.test.ants.mock.TestAntAgent;
 import org.ag.common.env.Coordinate;
 import org.ag.common.env.Direction;
 import org.ag.common.env.Node;
