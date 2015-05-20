@@ -76,12 +76,77 @@ public class RoundFoodSources {
 }
 ```
 
-## Results
+### Results
 
-### Pheromone trail left by ants
+#### Pheromone trail left by ants
 
 ![alt tag](http://luizfilipe.com/ag/intro-pheromone.jpg)
 
-### Nodes visited
+The agents used in this simulations use [path integration](http://en.wikipedia.org/wiki/Path_integration)
+as the algorithm to calculate how to get back to their nest. That is why the pheromone 
+paths are always a straight line from the ant's current position to their nest. The 
+illustration above shows how the use of pheromone as a way to communicate is reinforced
+by the feedback (deposit of more pheromone over time) given by the ants as a response on
+the environment around them.
+
+This is a clear example of emergence, the agents are not aware of the other agents, but
+their contribution together with the other agents' created a trail of pheromone that is
+used by the entire colony as the optimal path to the food source.
+
+#### Nodes visited
 
 ![alt tag](http://luizfilipe.com/ag/ant-explored.jpg)
+
+## Overview
+
+Like [AG Common](https://github.com/luizfilipeabrahao/ag-common), this ant 
+specialisation can be divided in three main areas.
+
+### Environment
+
+#### Pheromone Node
+
+A specialisation of [`BasicNode`](https://github.com/luizfilipeabrahao/ag-common/blob/master/src/main/java/org/ag/common/env/BasicNode.java)
+used to create environments for ant simulations. Pheromone nodes have a list of chemical
+stimulus that are present in the node.
+
+See: [`PheromoneNode`](src/main/java/org/ag/ants/env/PheromoneNode.java),
+[`AntEnvironmentFactory`](src/main/java/org/ag/ants/env/impl/AntEnvironmentFactory.java),
+[`ChemicalCommStimulus`](src/main/java/org/ag/ants/env/ChemicalCommStimulus.java),
+[`ChemicalCommStimulusType`](src/main/java/org/ag/ants/env/ChemicalCommStimulusType.java)
+
+#### Nest Node
+
+A [`NestNode`](src/main/java/org/ag/ants/env/NestNode.java) is part of a 
+ant nest. It is extends the BasicNode adding a propriety that represents the amount 
+of food that particular node is capable of storing. NestNodes are assembled to 
+form ant nests.
+
+See: [`NestNode`](src/main/java/org/ag/ants/env/NestNode.java),
+[`AntNest`](src/main/java/org/ag/ants/env/AntNest.java)
+
+#### Food Source Node
+
+A [`FoodSourceNode`](src/main/java/org/ag/ants/env/FoodSourceNode.java) object 
+represents a node that contain some food. The amount of food is set at creation 
+time and ants that enter that node are able to collect food from it.
+
+See: [`FoodSourceNode`](src/main/java/org/ag/ants/env/FoodSourceNode.java),
+[`FoodSource`](src/main/java/org/ag/ants/env/FoodSource.java)
+
+#### Chemical Communication Stimulus Type
+
+An abstraction of communication stimulus that represent chemical substances.
+
+See: [`ChemicalCommStimulusType`](src/main/java/org/ag/ants/env/ChemicalCommStimulusType.java)
+
+#### Chemical Communication Stimulus
+
+Represent chemical interactions between agents and the environment. Interaction might
+not be the right word for it, but objects of this class are interactions that some 
+agents have with the environment and are possibly used by other agents to acquire 
+information.
+
+See: [`ChemicalCommStimulus`](src/main/java/org/ag/ants/env/ChemicalCommStimulus.java),
+[`ForageStimulusType`](src/main/java/org/ag/ants/env/impl/ForageStimulusType.java),
+[`WarningStimulusType`](src/main/java/org/ag/ants/env/impl/WarningStimulusType.java),
