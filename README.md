@@ -5,7 +5,14 @@ describes a colony of ants and its main components (Ants and Nests) and the
 environment (Chemical communication and food sources) necessary to simulate the 
 behaviour of an ant colony.
 
-This is work is part of my final MSc project that can be [downloaded here](http://luizfilipe.com/ag/msc-luiz-filipe.pdf).
+With this implementation is possible to describe different species of ants varying their
+behavior based on their tasks, within each specie the framework provides ways to specifies
+different communication stimulus for different castes as well as different ways to react
+to these stimuli.
+
+This is work is part of my final MSc project that can be [downloaded here](http://luizfilipe.com/ag/msc-luiz-filipe.pdf),
+in the MSc report I studied how varying some parameters of the pheromone deposited by 
+working ants affected how much food the colony as a whole was able to collect.
 
 ## 30 second introduction
 
@@ -149,4 +156,45 @@ information.
 
 See: [`ChemicalCommStimulus`](src/main/java/org/ag/ants/env/ChemicalCommStimulus.java),
 [`ForageStimulusType`](src/main/java/org/ag/ants/env/impl/ForageStimulusType.java),
-[`WarningStimulusType`](src/main/java/org/ag/ants/env/impl/WarningStimulusType.java),
+[`WarningStimulusType`](src/main/java/org/ag/ants/env/impl/WarningStimulusType.java)
+
+### Agent
+
+#### Ant
+
+The [`Ant`](src/main/java/org/ag/ants/agent/Ant.java) interface defines the basic
+API for all ant agents. Moving direction, food collection and communication stimulus
+deposit are all handled by all ants and defined in this interface.
+
+See: [`Ant`](src/main/java/org/ag/ants/agent/Ant.java),
+[`AntAgent`](src/main/java/org/ag/ants/agent/impl/AntAgent.java),
+[`WorkerAntAgent`](src/main/java/org/ag/ants/agent/impl/WorkerAntAgent.java),
+[`AntAgentFactory`](src/main/java/org/ag/ants/agent/impl/AntAgentFactory.java)
+
+#### Ant Type
+
+Ants are implemented having limited memory size and limited capability of collecting food.
+Different types of ants have different memory sizes and can collect different amounts of 
+food. Also the different types of ant interact differently with the environment so each 
+type of ants define a list of chemical stimulus and how much of each of them the agent is 
+able to lay in every interaction.
+
+See: [`AntType`](src/main/java/org/ag/ants/agent/AntType.java),
+[`WorkerAntType`](src/main/java/org/ag/ants/agent/impl/WorkerAntType.java)
+
+### Task
+
+#### Forage
+
+The [`ForageTask`](src/main/java/org/ag/ants/task/ForageTask.java) implements a node selection
+model to direct the ant towards a food source using pheromone trails. This model takes in 
+consideration the intensity of forage pheromone present in the 8 neighbour nodes around the agent.
+
+See: [`ForageTask`](src/main/java/org/ag/ants/task/ForageTask.java)
+
+#### Find Home Nest
+
+The [`FindHomeNestTask`](src/main/java/org/ag/ants/task/FindHomeNestTask.java) implements the
+path-integration algorithm to take the ant back to the nest were it was created.
+
+See: [`FindHomeNestTask`](src/main/java/org/ag/ants/task/FindHomeNestTask.java)
