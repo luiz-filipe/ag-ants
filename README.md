@@ -110,6 +110,8 @@ The following is a very brief summary of the experiments and observations result
 in the MSc project. I thought it would be useful to have it here because they offer a different
 insight into the framework details and show how it can actually be used.
 
+For the full story on this experiments please refer to the [MSc project report](http://luizfilipe.com/ag/msc-luiz-filipe.pdf)
+
 ### Pheromone Concentration Sensitivity
 
 This experiment investigates how different initial pheromone concentrations in the environment 
@@ -158,6 +160,44 @@ The complete trail pheromone trails left by simulation using 0.001,0.04 (a), 0.0
 respectively:
 
 ![alt tag](http://luizfilipe.com/ag/experiment-1-3.jpg)
+
+### Forage Radius Investigation
+
+In this experiment the radius of action of the forage pheromone is varied in order to check the 
+effects on the amount of food the colony is capable of forage.
+
+At first, one would expect that the increase on the radius of the forage pheromone would have a 
+positive impact on the colony capacity of collecting food as trails that lead to food sources are 
+reinforced by agents carrying food back to the nest and with a wider spread of the pheromone more 
+workers would fall in these trails.
+
+However the data from the simulations show a different picture. The colony collect less and less 
+food as the stimulus’ radius increase.
+
+| Radius | Mean of food collected | Standard deviation |
+| :----: | :--------------------: | :----------------: |
+| 0 | 6.0 | 1.21 |
+| 1 | 4.9 | 0.72 |
+| 2 | 3.3 | 0.53 |
+
+The experiment was run 100 times for every radius. The following figure shows the samples 
+distribution when variating the pheromone radius - 0 (a), 1 (b) and 2 (c) - and the samples’ 
+probability density distribution (d)
+
+![alt tag](http://luizfilipe.com/ag/experiment-2-1.jpg)
+
+The figure above helps us to visualise what the previous table had already shown - the samples
+variance decreases when teh radius increases.
+
+The reason for this phenomena is that the bigger the pheromone radius, fewer agents are likely 
+to ’escape’ from the trail, thus they are not able to explore different areas of the environment. 
+This means that the agents will create virtually the same pheromone trail in each case to forage, 
+so that their outcomes are likely to be very close.
+
+With a more diversified exploratory reach, agents in the simulations using radius 0 are likely to 
+have different degrees of success in finding food and taking it back to the nest in each simulation 
+run, justifying the greater variance in the colony outcome. In other words, random events play a 
+large role in determining the outcome.
 
 ## Overview
 
