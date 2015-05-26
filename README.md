@@ -104,6 +104,61 @@ used by the entire colony as the optimal path to the food source.
 
 ![alt tag](http://luizfilipe.com/ag/ant-explored.jpg)
 
+## More Results
+
+The following is a very brief summary of the experiments and observations results described
+in the MSc project. I thought it would be useful to have it here because they offer a different
+insight into the framework details and show how it can actually be used.
+
+### Pheromone Concentration Sensitivity
+
+This experiment investigates how different initial pheromone concentrations in the environment 
+and the amount of pheromone each agent is capable of depositing in each interaction affect the
+agents navigation through the space.
+
+Because the way the node selection was implemented, if we started with an environment with no 
+pheromone at all and then an ant deposited any some in any node, the probability of this node
+being selected for the agent's next move was 100%, so it would effectively get stuck in a very
+small area (this is explained in more detail from page 50 in the report). 
+
+So what if we initialised the environment with just enough pheromone so that the agents could 
+freely move and execute their tasks? But the question now is how much this initial concentration
+should be an how big should be the agents increment to the pheromone concentration so that the
+colony does not converges to a small area and at the same time it will not get too dispersed, so
+that its agents would not be able to communicate indirectly to each other and the colony
+behaviour would not emerge.
+
+In this experiment two samples of the environment were taken, one close to the nest and one
+far from it.
+
+![alt tag](http://luizfilipe.com/ag/experiment-1-1.jpg)
+
+The trails left by the colonies can be compared in relation on how strong they are, how the agents
+are able to ’scape’ them to explore the environment and how it shaped when agents get further 
+from the nest.
+
+It is possible to observe from the figures that two very contrasting behaviours emerge, firstly 
+because the environment has so little pheromone and the update is so small, they weight assigned 
+to each of the neighbour nodes count considerably more than the pheromone deposited by the agents, 
+so the agents end up very dispersed, thus no chemical trail is formed at all.
+
+When the amount of pheromone deposited by the agents is increased the behaviour of the colony could 
+not be more different than what was seen previously. The agents switch from exploring a large area 
+to be ’trapped’ into the pheromone trail. This impedes the agents of exploring the space, what is 
+not desirable for any colony. 
+
+Further investigation revealed that the probability of selection increases in a logarithmic fashion. 
+The following figure shows how the increase in probability progress when the amount of pheromone 
+deposited by the agents increases by multiples of the initial concentration in the environment.
+
+![alt tag](http://luizfilipe.com/ag/experiment-1-2.jpg)
+
+The complete trail pheromone trails left by simulation using 0.001,0.04 (a), 0.01,0.01 (b), 
+0.02,0.01 (c), 0.02,0.02 (d) and 0.4,04 (e) for initial pheromone concentration and update step 
+respectively:
+
+![alt tag](http://luizfilipe.com/ag/experiment-1-3.jpg)
+
 ## Overview
 
 Like [AG Common](https://github.com/luizfilipeabrahao/ag-common), this ant 
